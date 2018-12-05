@@ -34,23 +34,41 @@ def train2sen():
     target_file.close()
 
 def to_test_format(result_file_name):
-    result_file = open(result_file_name, 'r')
-    predict_file = open('predict.utf8')
+    result_file = open(result_file_name, 'r', encoding='utf8')
+    predict_file = open('predict.utf8', 'w', encoding='utf8')
     wordseq = []
     labelseq = []
     for line in result_file:
         line = line.strip('\n')
         if line == '':
-            seged_sen = ''
+            seged_sen = []
+            seged_word = ''
             for i in range(len(wordseq)):
                 if labelseq[i] == 'S':
-                    seged_sen += wordseq[i] + ' '
-                elif labelseq[i] == ''
+                    seged_word = wordseq[i]
+                    seged_sen.append(seged_word)
+                    seged_word = ''
+                elif labelseq[i] == 'B':
+                    seged_word += wordseq[i]
+                    if i+1 < len(wordseq):
+                        if labelseq[i+1] == 'S' or labelseq[i+1] == 'B':
+                            seged_sen.append(seged_word)
+                            seged_word = ''
+                elif labelseq[i] == 'I':
+                    seged_word += wordseq[i]
+                elif labelseq[i] == 'E':
+                    seged_word += wordseq[i]
+                    seged_sen.append(seged_word)
+                    seged_word = '' 
+            predict_file.write(' '.join(seged_sen) + '\n')
             wordseq = []
             labelseq = []
         else:
             items = line.split(' ')
             wordseq.append(items[0])
             labelseq.append(items[1])
-            
+
+if __name__ == "__main__":
+    trans_file_name = input('enter result file name:\n')
+    to_test_format(trans_file_name)
         
