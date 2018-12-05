@@ -41,7 +41,13 @@ def to_test_format(result_file_name):
     for line in result_file:
         line = line.strip('\n')
         if line == '':
-            pass
+            seged_sen = ''
+            for i in range(len(wordseq)):
+                if labelseq[i] == 'S':
+                    seged_sen += wordseq[i] + ' '
+                elif labelseq[i] == ''
+            wordseq = []
+            labelseq = []
         else:
             items = line.split(' ')
             wordseq.append(items[0])
