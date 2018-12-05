@@ -14,7 +14,7 @@ word_seqs format: ['今天晴', '今天阴']
 label_seqs format: ['BES', 'BES']
 '''
 def read_seqs():
-    seq_file = open(seq_file_name)
+    seq_file = open(seq_file_name, 'r', encoding='utf8')
     word_seqs = []
     label_seqs = []
     for line in seq_file:

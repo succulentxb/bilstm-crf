@@ -32,8 +32,8 @@ if __name__ == "__main__":
         if test_file_name == 'exit':
             exit()
         result_file_name = 'result.utf8'
-        result_file = open(result_file_name, 'w')
-        test_file = open(test_file_name, 'r')
+        result_file = open(result_file_name, 'w', encoding='utf8')
+        test_file = open(test_file_name, 'r', encoding='utf8')
         test_wordseq = []
         sen_num = 0
         for line in test_file:
@@ -46,10 +46,20 @@ if __name__ == "__main__":
                     result_file.write(word + ' ' + label +'\n')
                 result_file.write('\n')
                 sen_num += 1
-                print('eval ' + str(sen_num) + ' sentences')
+                print('eval No.' + str(sen_num) + ' sentence')
                 test_wordseq = []
             else:
                 test_wordseq.append(line[0])
+        if len(test_wordseq) > 0:
+            test_data = utils.build_test_data(word2index_dict, test_wordseq)
+            res_labelseq = model.eval(test_data, label_trans_prob)
+            res_labelseq = [utils.index2label_dict[i] for i in res_labelseq]
+            for word, label in zip(test_wordseq, res_labelseq):
+                result_file.write(word + ' ' + label +'\n')
+            result_file.write('\n')
+            sen_num += 1
+            print('eval No.' + str(sen_num) + ' sentence')
+            test_wordseq = []
         test_file.close()
         result_file.close()
                 
