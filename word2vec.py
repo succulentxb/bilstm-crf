@@ -6,7 +6,7 @@ class Sentences(object):
         self.fname = fname
         
     def __iter__(self):
-        for line in open(self.fname):
+        for line in open(self.fname, 'r', encoding='utf8'):
             line.strip('\n')
             line.strip(' ')
             yield list(line)
