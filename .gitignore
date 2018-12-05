@@ -5,4 +5,3 @@ tmp/
 venv/
 bilstmcrf/
 .DS_Store
-lab_test/
