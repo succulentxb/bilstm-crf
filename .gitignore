@@ -3,3 +3,5 @@ __pycache__/
 test/
 tmp/
 venv/
+.DS_Store
+lab_test/
